@@ -28,5 +28,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
+        <dependency>
+            <artifactId>common</artifactId>
+            <groupId>com.john.all-tasks</groupId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>
