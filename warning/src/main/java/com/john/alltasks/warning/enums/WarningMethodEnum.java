@@ -4,7 +4,7 @@ package com.john.alltasks.warning.enums;
  * author: zhaowen.he
  * date: 2020/1/15
  * ticket:
- * description:
+ * description: 告警方式
  */
 public enum WarningMethodEnum {
     /**
