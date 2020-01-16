@@ -34,14 +34,14 @@
     <select id="queryWarningByTenant" resultType="com.john.alltasks.warning.models.Warning">
         SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
         FROM warning
-        WHERE tenant = #{tenant} AND status = 1
+        WHERE (tenant = #{tenant} OR tenant IS NULL) AND status = 1
         ORDER BY `level` desc
     </select>
 
     <select id="queryWarningByOwner" resultType="com.john.alltasks.warning.models.Warning">
         SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
         FROM warning
-        WHERE owner = #{owner} AND `name` = #{name}
+        WHERE (owner = #{owner} OR owner IS NULL) AND `name` = #{name}
         LIMIT 1
     </select>
 
