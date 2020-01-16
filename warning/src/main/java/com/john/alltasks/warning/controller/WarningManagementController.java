@@ -1,6 +1,7 @@
 package com.john.alltasks.warning.controller;
 
 import com.john.alltasks.common.models.ResponseData;
+import com.john.alltasks.common.security.AuthUtil;
 import com.john.alltasks.common.utils.ValidationUtil;
 import com.john.alltasks.warning.models.Warning;
 import com.john.alltasks.warning.service.WarningManagementService;
@@ -39,10 +40,17 @@ public class WarningManagementController {
         if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");
         }
-        //TODO 填充租户用用户信息
-
+        fillProps(warning);
         warningManagementService.addWarning(warning);
         return ResponseData.success("告警配置新增成功");
+    }
+
+    private void fillProps(@RequestBody @Valid Warning warning) {
+        warning.setDefaultFlag(0);
+        warning.setStatus(1);
+        warning.setOwner(AuthUtil.getUserId());
+        warning.setOperator(AuthUtil.getUserId());
+        warning.setTenant(AuthUtil.getTenant());
     }
 
     @DeleteMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -76,29 +84,7 @@ public class WarningManagementController {
         String tenant = "test.com";
 
         List<Warning> warnings = warningManagementService.getWarningByTenant(tenant);
-        return ResponseData.success("告警配置修改成功", warnings);
+        return ResponseData.success("告警配置查询成功", warnings);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

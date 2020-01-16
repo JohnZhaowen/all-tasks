@@ -11,11 +11,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * ticket:
  * description:
  */
-@SpringBootApplication
 @EnableEurekaClient
 @EnableSwagger2
+@SpringBootApplication
 public class WarningApp {
-
     public static void main(String[] args) {
         SpringApplication.run(WarningApp.class, args);
     }

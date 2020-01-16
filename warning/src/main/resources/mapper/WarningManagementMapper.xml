@@ -8,14 +8,16 @@
         </selectKey>
 
         INSERT INTO warning
-        (`name`, `level`, warning_method, warning_impact, tenant, operator, create_time)
+        (`name`, `level`, warning_method, warning_impact, tenant, operator, status, default_flag, owner, create_time)
         VALUES
-        (#{warning.name}, #{warning.level}, #{warning.warningMethod}, #{warning.warningImpact}, #{warning.tenant}, #{warning.operator}, current_timestamp)
+        (#{warning.name}, #{warning.level}, #{warning.warningMethod}, #{warning.warningImpact}, #{warning.tenant}, #{warning.operator}, #{warning.status}, #{warning.defaultFlag}, #{warning.owner}, current_timestamp)
     </insert>
 
-    <delete id="removeWarning">
-        DELETE FROM warning WHERE id = #{id}
-    </delete>
+    <update id="removeWarning">
+        UPDATE warning
+        SET status = 0
+        WHERE id = #{id}
+    </update>
 
     <update id="updateWarning" parameterType="com.john.alltasks.warning.models.Warning">
         UPDATE warning

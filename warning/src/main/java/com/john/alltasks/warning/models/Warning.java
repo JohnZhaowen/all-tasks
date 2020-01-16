@@ -58,4 +58,6 @@ public class Warning implements Serializable {
     private int defaultFlag;
 
     private String warnContent;
+
+    private String owner;
 }
