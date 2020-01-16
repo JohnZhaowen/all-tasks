@@ -7,7 +7,7 @@
             select LAST_INSERT_ID();
         </selectKey>
 
-        INSERT INTO warning
+        REPLACE INTO warning
         (`name`, `level`, warning_method, warning_impact, tenant, operator, status, default_flag, owner, create_time)
         VALUES
         (#{warning.name}, #{warning.level}, #{warning.warningMethod}, #{warning.warningImpact}, #{warning.tenant}, #{warning.operator}, #{warning.status}, #{warning.defaultFlag}, #{warning.owner}, current_timestamp)
@@ -37,6 +37,13 @@
         FROM warning
         WHERE tenant = #{tenant}
         ORDER BY `level` desc
+    </select>
+
+    <select id="queryWarningByOwner" resultType="com.john.alltasks.warning.models.Warning">
+        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
+        FROM warning
+        WHERE owner = #{owner} AND `name` = #{name}
+        LIMIT 1
     </select>
 
 </mapper>

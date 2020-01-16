@@ -16,4 +16,6 @@ public interface WarningManagementMapper {
     void updateWarning(@Param("warning") Warning warning);
 
     List<Warning> queryWarningByTenant(@Param("tenant") String tenant);
+
+    Warning queryWarningByOwner(@Param("owner") String owner, @Param("name") String name);
 }

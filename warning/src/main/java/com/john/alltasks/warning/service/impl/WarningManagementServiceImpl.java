@@ -6,7 +6,6 @@ import com.john.alltasks.warning.models.Warning;
 import com.john.alltasks.warning.service.WarningManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,15 +25,14 @@ public class WarningManagementServiceImpl implements WarningManagementService {
 
     @Override
     public void addWarning(Warning warning) {
-
-        try {
-            warningManagementMapper.saveWarning(warning);
-        } catch (DuplicateKeyException e) {
+        //查询唯一索引是否存在冲突
+        Warning existed = warningManagementMapper.queryWarningByOwner(warning.getOwner(), warning.getName());
+        if(existed != null && existed.getStatus() == 1){
             String content = String.format("用户[%s]下已经存在名称为[%s]的告警配置，请重新设置告警名称", warning.getOwner(), warning.getName());
             log.error(content);
             throw new BizException(400, content);
         }
-
+        warningManagementMapper.saveWarning(warning);
     }
 
     @Override
