@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -45,7 +44,6 @@ public class WarningManagementController {
         warningManagementService.addWarning(warning);
         return ResponseData.success("告警配置新增成功");
     }
-
 
     @DeleteMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警配置删除")

@@ -13,9 +13,6 @@ import com.john.alltasks.common.exceptions.AllTasksException;
  */
 public class BizException extends AllTasksException {
 
-    /**
-     * @param message 错误信息
-     */
     public BizException(int code, String message) {
         super(code, message);
     }
