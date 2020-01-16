@@ -70,7 +70,8 @@ public class WarningManagementController {
         if(!ValidationUtil.validParam(bindingResult) || warning.getId() == null){
             return ResponseData.error(400, "入参错误");
         }
-        //TODO 填充租户信息和用户信息
+
+        warning.setOperator(AuthUtil.getUserId());
         warningManagementService.modify(warning);
         return ResponseData.success("告警配置修改成功");
     }
@@ -79,11 +80,7 @@ public class WarningManagementController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警配置查询")
     public ResponseData<List<Warning>> getWarningByTenant(){
-
-        //TODO 租户获取
-        String tenant = "test.com";
-
-        List<Warning> warnings = warningManagementService.getWarningByTenant(tenant);
+        List<Warning> warnings = warningManagementService.getWarningByTenant(AuthUtil.getTenant());
         return ResponseData.success("告警配置查询成功", warnings);
     }
 

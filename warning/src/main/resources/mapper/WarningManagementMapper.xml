@@ -16,7 +16,7 @@
     <update id="removeWarning">
         UPDATE warning
         SET status = 0
-        WHERE id = #{id}
+        WHERE id = #{id} AND status = 1
     </update>
 
     <update id="updateWarning" parameterType="com.john.alltasks.warning.models.Warning">
@@ -26,16 +26,15 @@
             `level` = #{warning.level},
             warning_method = #{warning.warningMethod},
             warning_impact = #{warning.warningImpact},
-            tenant = #{warning.tenant},
             operator = #{warning.operator},
             update_time = current_timestamp
-        WHERE id = #{warning.id}
+        WHERE id = #{warning.id} AND status = 1
     </update>
 
     <select id="queryWarningByTenant" resultType="com.john.alltasks.warning.models.Warning">
-        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator
+        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
         FROM warning
-        WHERE tenant = #{tenant}
+        WHERE tenant = #{tenant} AND status = 1
         ORDER BY `level` desc
     </select>
 
