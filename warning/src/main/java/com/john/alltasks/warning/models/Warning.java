@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * author: zhaowen.he
@@ -47,4 +48,14 @@ public class Warning implements Serializable {
     @ApiModelProperty(value = "操作人", hidden = true)
     private String operator;
 
+    @ApiModelProperty(value = "责任人")
+    private List<User> handers;
+
+    @ApiModelProperty(value = "状态， 0-已删除， 1-正常")
+    private int status;
+
+    @ApiModelProperty(value = "是否为默认告警配置, 0-不是， 1-是")
+    private int defaultFlag;
+
+    private String warnContent;
 }
