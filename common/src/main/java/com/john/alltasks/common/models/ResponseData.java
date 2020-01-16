@@ -33,6 +33,15 @@ public class ResponseData<T> {
         return new ResponseData(false, code, message);
     }
 
+    public static ResponseData success(String message){
+        return new ResponseData(true, 200, message);
+    }
+
+
+    public static<T> ResponseData success(String message, T data){
+        return new ResponseData(true, 200, message, data);
+    }
+
 
     public ResponseData(boolean success, int code, String message){
         this.success = success;
@@ -40,31 +49,13 @@ public class ResponseData<T> {
         this.code = code;
     }
 
-
-    public ResponseData(boolean success, String message){
+    public ResponseData(boolean success, int code, String message, T data){
         this.success = success;
         this.message = message;
-    }
-
-    public ResponseData(boolean success, String message, T data){
-        this.success = success;
-        this.message = message;
+        this.code = code;
         this.data = data;
     }
 
-    public ResponseData(boolean success, String message, T data, Long total){
-        this.success = success;
-        this.message = message;
-        this.data = data;
-        this.total = total;
-    }
-
-    public ResponseData(boolean success, String message, T data, Integer total){
-        this.success = success;
-        this.message = message;
-        this.data = data;
-        this.total = Long.parseLong(total.toString());
-    }
 
 
 }

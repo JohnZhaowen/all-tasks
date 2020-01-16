@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -18,19 +21,30 @@ import java.io.Serializable;
 @ApiModel("告警基本信息")
 public class Warning implements Serializable {
 
-    @ApiModelProperty("告警编号")
-    private int id;
+    @ApiModelProperty(value = "告警编号")
+    private Long id;
 
-    @ApiModelProperty("告警名称")
+    @ApiModelProperty(value = "告警名称")
+    @NotBlank(message = "告警名称不可为空")
     private String name;
 
-    @ApiModelProperty("告警等级，等级越小，越严重")
-    private int level;
+    @ApiModelProperty(value = "告警等级，等级越大，越严重")
+    @Min(value = 1, message = "告警等级必须大于0")
+    @NotNull(message = "告警等级不可为空")
+    private Integer level;
 
-    @ApiModelProperty("告警方式")
+    @ApiModelProperty(value = "告警方式")
+    @NotNull(message = "告警方式不可为空")
     private WarningMethodEnum warningMethod;
 
-    @ApiModelProperty("告警影响")
+    @ApiModelProperty(value = "告警影响")
+    @NotNull(message = "告警影响不可为空")
     private WarningImpactEnum warningImpact;
+
+    @ApiModelProperty(value = "租户", hidden = true)
+    private String tenant;
+
+    @ApiModelProperty(value = "操作人", hidden = true)
+    private String operator;
 
 }

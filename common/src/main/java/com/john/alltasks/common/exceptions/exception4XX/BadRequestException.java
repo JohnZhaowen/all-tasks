@@ -7,11 +7,9 @@ import lombok.Getter;
 /**
  * Created on 16-7-29.
  *
- * @author junjing.zhang
  */
 @Getter
 public class BadRequestException extends AllTasksException {
-
 
     public BadRequestException() {
         super(400, DefaultMessage.ERROR_400);
