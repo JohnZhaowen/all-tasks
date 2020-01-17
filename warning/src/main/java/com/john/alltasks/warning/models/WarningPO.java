@@ -1,16 +1,19 @@
 package com.john.alltasks.warning.models;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * author: zhaowen.he
  * date: 2020/1/15
  * ticket:
- * description:告警基本信息
+ * description:告警配置持久化层实体类
  */
 @Data
+@ApiModel("告警配置持久化层实体类")
 public class WarningPO implements Serializable {
 
     private Long id;
@@ -31,7 +34,9 @@ public class WarningPO implements Serializable {
 
     private int defaultFlag;
 
-    private String warnContent;
-
     private String owner;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
 }

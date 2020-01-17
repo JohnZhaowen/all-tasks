@@ -1,8 +1,8 @@
 package com.john.alltasks.warning.service;
 
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningTriggerBO;
 
 public interface WarnTriggerService {
 
-    void trigger(Warning warning);
+    void trigger(WarningTriggerBO warning);
 }

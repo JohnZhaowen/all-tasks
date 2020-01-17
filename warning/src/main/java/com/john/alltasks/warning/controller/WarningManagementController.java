@@ -3,7 +3,11 @@ package com.john.alltasks.warning.controller;
 import com.john.alltasks.common.models.ResponseData;
 import com.john.alltasks.common.security.AuthUtil;
 import com.john.alltasks.common.utils.ValidationUtil;
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.enums.WarningImpactEnum;
+import com.john.alltasks.warning.enums.WarningMethodEnum;
+import com.john.alltasks.warning.models.WarningInsertVO;
+import com.john.alltasks.warning.models.WarningListVO;
+import com.john.alltasks.warning.models.WarningUpdateVO;
 import com.john.alltasks.warning.service.WarningManagementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,23 +38,42 @@ public class WarningManagementController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警配置新增")
-    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "Warning")
-    public ResponseData<String> addWarning(@Valid @RequestBody Warning warning, BindingResult bindingResult){
+    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningInsertVO")
+    public ResponseData<String> addWarning(@Valid @RequestBody WarningInsertVO warning, BindingResult bindingResult){
 
         if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");
         }
-        fillProps(warning);
+        if(!checkWarningMethod(warning.getWarningMethod())){
+            return ResponseData.error(400, "告警方式配置错误");
+        }
+        if(!checkWarningImpact(warning.getWarningImpact())){
+            return ResponseData.error(400, "告警影响配置错误");
+        }
         warningManagementService.addWarning(warning);
         return ResponseData.success("告警配置新增成功");
     }
 
-    private void fillProps(@RequestBody @Valid Warning warning) {
-        warning.setDefaultFlag(0);
-        warning.setStatus(1);
-        warning.setOwner(AuthUtil.getUserId());
-        warning.setOperator(AuthUtil.getUserId());
-        warning.setTenant(AuthUtil.getTenant());
+    private boolean checkWarningMethod(String warningMethods){
+        String[] warningMethodArray = warningMethods.split(",");
+        for(String warningMehtod : warningMethodArray){
+            if(!WarningMethodEnum.isExist(warningMehtod)){
+                log.error("告警方式配置错误");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkWarningImpact(String warningImpacts){
+        String[] warningImpactArray = warningImpacts.split(",");
+        for(String warningImpact : warningImpactArray){
+            if(!WarningImpactEnum.isExist(warningImpact)){
+                log.error("告警影响配置错误");
+                return false;
+            }
+        }
+        return true;
     }
 
     @DeleteMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -64,14 +87,18 @@ public class WarningManagementController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警配置修改")
-    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "Warning")
-    public ResponseData<String> modifyWarning(@Valid @RequestBody Warning warning, BindingResult bindingResult){
+    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningUpdateVO")
+    public ResponseData<String> modifyWarning(@Valid @RequestBody WarningUpdateVO warning, BindingResult bindingResult){
 
         if(!ValidationUtil.validParam(bindingResult) || warning.getId() == null){
             return ResponseData.error(400, "入参错误");
         }
-
-        warning.setOperator(AuthUtil.getUserId());
+        if(!checkWarningMethod(warning.getWarningMethod())){
+            return ResponseData.error(400, "告警方式配置错误");
+        }
+        if(!checkWarningImpact(warning.getWarningImpact())){
+            return ResponseData.error(400, "告警影响配置错误");
+        }
         warningManagementService.modify(warning);
         return ResponseData.success("告警配置修改成功");
     }
@@ -79,8 +106,8 @@ public class WarningManagementController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警配置查询")
-    public ResponseData<List<Warning>> getWarningByTenant(){
-        List<Warning> warnings = warningManagementService.getWarningByTenant(AuthUtil.getTenant());
+    public ResponseData<List<WarningListVO>> getWarningByTenant(){
+        List<WarningListVO> warnings = warningManagementService.getWarningByTenant(AuthUtil.getTenant());
         return ResponseData.success("告警配置查询成功", warnings);
     }
 

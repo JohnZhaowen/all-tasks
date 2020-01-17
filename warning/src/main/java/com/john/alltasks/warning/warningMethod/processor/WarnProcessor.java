@@ -1,10 +1,10 @@
 package com.john.alltasks.warning.warningMethod.processor;
 
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningTriggerBO;
 
 public interface WarnProcessor {
 
     String getCode();
 
-    void process(Warning warning);
+    void process(WarningTriggerBO warning);
 }

@@ -2,7 +2,7 @@ package com.john.alltasks.warning.controller;
 
 import com.john.alltasks.common.models.ResponseData;
 import com.john.alltasks.common.utils.ValidationUtil;
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningTriggerBO;
 import com.john.alltasks.warning.service.WarnTriggerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,7 +36,7 @@ public class WarnTriggerController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("告警触发")
     @ApiImplicitParam(paramType = "path", name = "id", value = "告警编号", required = true, dataType = "long")
-    public ResponseData<String> trigger(@Valid @RequestBody Warning warning, BindingResult bindingResult){
+    public ResponseData<String> trigger(@Valid @RequestBody WarningTriggerBO warning, BindingResult bindingResult){
 
         if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");

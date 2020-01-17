@@ -1,16 +1,18 @@
 package com.john.alltasks.warning.service;
 
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningInsertVO;
+import com.john.alltasks.warning.models.WarningListVO;
+import com.john.alltasks.warning.models.WarningUpdateVO;
 
 import java.util.List;
 
 public interface WarningManagementService {
 
-    void addWarning(Warning warning);
+    void addWarning(WarningInsertVO warningInsertVO);
 
     void delWarning(Long id);
 
-    void modify(Warning warning);
+    void modify(WarningUpdateVO warningUpdateVO);
 
-    List<Warning> getWarningByTenant(String tenant);
+    List<WarningListVO> getWarningByTenant(String tenant);
 }

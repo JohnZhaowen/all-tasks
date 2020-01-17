@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.john.alltasks.warning.mapper.WarningManagementMapper">
 
-    <insert id="saveWarning" parameterType="com.john.alltasks.warning.models.Warning">
+    <insert id="saveWarning" parameterType="com.john.alltasks.warning.models.WarningPO">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             select LAST_INSERT_ID();
         </selectKey>
@@ -15,11 +15,11 @@
 
     <update id="removeWarning">
         UPDATE warning
-        SET status = 0
+        SET status = 0, update_time = current_timestamp
         WHERE id = #{id} AND status = 1
     </update>
 
-    <update id="updateWarning" parameterType="com.john.alltasks.warning.models.Warning">
+    <update id="updateWarning" parameterType="com.john.alltasks.warning.models.WarningPO">
         UPDATE warning
         SET
             `name` = #{warning.name},
@@ -31,15 +31,15 @@
         WHERE id = #{warning.id} AND status = 1
     </update>
 
-    <select id="queryWarningByTenant" resultType="com.john.alltasks.warning.models.Warning">
-        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
+    <select id="queryWarningByTenant" resultType="com.john.alltasks.warning.models.WarningListVO">
+        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, default_flag defaultFlag, owner
         FROM warning
         WHERE (tenant = #{tenant} OR tenant IS NULL) AND status = 1
         ORDER BY `level` desc
     </select>
 
-    <select id="queryWarningByOwner" resultType="com.john.alltasks.warning.models.Warning">
-        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner
+    <select id="queryWarningByOwner" resultType="com.john.alltasks.warning.models.WarningPO">
+        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, status, default_flag defaultFlag, owner, create_time createTime, update_time updateTime
         FROM warning
         WHERE (owner = #{owner} OR owner IS NULL) AND `name` = #{name}
         LIMIT 1

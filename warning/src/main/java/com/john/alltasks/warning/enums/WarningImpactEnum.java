@@ -1,5 +1,9 @@
 package com.john.alltasks.warning.enums;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+
 /**
  * author: zhaowen.he
  * date: 2020/1/15
@@ -20,11 +24,12 @@ public enum WarningImpactEnum {
      */
     CURRENT_TASK_ROLLBACK,
     /**
-     * 当前及后续作业中止
+     * 后续作业不触发
      */
-    CURRENT_AND_FUTURE_TASK_SUSPEND,
-    /**
-     * 当前作业回滚，后续作业中止
-     */
-    CURRENT_ROLLBACK_FUTURE_SUSPEND;
+    FUTURE_TASK_UNTRIGGER;
+
+    public static boolean isExist(String name){
+        WarningImpactEnum targetWarningImpact = Arrays.stream(WarningImpactEnum.values()).filter(e -> StringUtils.equals(e.name(), name)).findFirst().orElse(null);
+        return targetWarningImpact != null;
+    }
 }

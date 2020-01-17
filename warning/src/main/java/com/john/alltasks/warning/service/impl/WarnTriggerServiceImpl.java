@@ -1,6 +1,6 @@
 package com.john.alltasks.warning.service.impl;
 
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningTriggerBO;
 import com.john.alltasks.warning.service.WarnTriggerService;
 import com.john.alltasks.warning.warningMethod.selector.WarnSelector;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +21,13 @@ public class WarnTriggerServiceImpl implements WarnTriggerService {
     private WarnSelector warnSelector;
 
     @Override
-    public void trigger(Warning warning) {
+    public void trigger(WarningTriggerBO warning) {
 
         //提醒方式
-        warnSelector.getProcessor(warning.getWarningMethod().name()).process(warning);
+        warning.getWarningMethods().parallelStream().forEach(w -> warnSelector.getProcessor(w.name()).process(warning));
+
+
+
 
         //TODO 告警影响处理，这里需要调用作业服务
 

@@ -3,7 +3,7 @@ package com.john.alltasks.warning.warningMethod.processor;
 import com.john.alltasks.warning.enums.WarningMethodEnum;
 import com.john.alltasks.warning.exceptions.EmailWarnException;
 import com.john.alltasks.warning.models.User;
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningTriggerBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +36,7 @@ public class EmailWarnProcessor implements WarnProcessor {
     }
 
     @Override
-    public void process(Warning warning) {
+    public void process(WarningTriggerBO warning) {
         List<User> handers = warning.getHanders();
         if(!CollectionUtils.isEmpty(handers)){
             handers.parallelStream().forEach(h -> {
@@ -55,7 +55,7 @@ public class EmailWarnProcessor implements WarnProcessor {
         }
     }
 
-    private SimpleMailMessage getEmailMessage(Warning warning, User h) {
+    private SimpleMailMessage getEmailMessage(WarningTriggerBO warning, User h) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(userName);
         message.setTo(h.getEmail());

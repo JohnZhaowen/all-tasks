@@ -13,11 +13,15 @@ import java.io.Serializable;
  * author: zhaowen.he
  * date: 2020/1/15
  * ticket:
- * description:告警配置新增实体类
+ * description:告警配置更新实体类
  */
 @Data
-@ApiModel("告警配置新增实体类")
-public class WarningInsertVO implements Serializable {
+@ApiModel("告警配置更新实体类")
+public class WarningUpdateVO implements Serializable {
+
+    @ApiModelProperty(value = "告警编号")
+    @NotNull(message = "告警编号不可为空")
+    private Long id;
 
     @ApiModelProperty(value = "告警名称")
     @NotBlank(message = "告警名称不可为空")

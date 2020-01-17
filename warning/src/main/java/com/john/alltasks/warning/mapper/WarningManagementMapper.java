@@ -1,6 +1,7 @@
 package com.john.alltasks.warning.mapper;
 
-import com.john.alltasks.warning.models.Warning;
+import com.john.alltasks.warning.models.WarningListVO;
+import com.john.alltasks.warning.models.WarningPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,13 +10,13 @@ import java.util.List;
 @Mapper
 public interface WarningManagementMapper {
 
-    void saveWarning(@Param("warning") Warning warning);
+    void saveWarning(@Param("warning") WarningPO warning);
 
     void removeWarning(@Param("id") Long id);
 
-    void updateWarning(@Param("warning") Warning warning);
+    void updateWarning(@Param("warning") WarningPO warning);
 
-    List<Warning> queryWarningByTenant(@Param("tenant") String tenant);
+    List<WarningListVO> queryWarningByTenant(@Param("tenant") String tenant);
 
-    Warning queryWarningByOwner(@Param("owner") String owner, @Param("name") String name);
+    WarningPO queryWarningByOwner(@Param("owner") String owner, @Param("name") String name);
 }
