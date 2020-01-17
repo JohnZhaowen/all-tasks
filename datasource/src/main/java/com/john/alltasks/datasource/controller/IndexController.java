@@ -1,4 +1,4 @@
-package com.john.alltasks.persistence.controller;
+package com.john.alltasks.datasource.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
  * description:
  */
 @RestController
-@RequestMapping("/persistence")
+@RequestMapping("/datasource")
 @Slf4j
-@Api(tags = "健康检查")
-public class HealthyCheckController {
+@Api(tags = "首页")
+public class IndexController {
 
-    @GetMapping(value = "/healthyCheck",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation("健康检查")
-    public String healthyCheck(){
-        return "数据源项目健康检查成功!";
+    @GetMapping(value = {"", "/index"},  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation("首页")
+    public String index(){
+        return "hello， this is datasource system!";
     }
 
 }

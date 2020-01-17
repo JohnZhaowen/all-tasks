@@ -1,4 +1,4 @@
-package com.john.alltasks.warning.config;
+package com.john.alltasks.datasource.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -24,21 +24,21 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-@MapperScan(basePackages = "com.john.alltasks.warning.mapper", sqlSessionFactoryRef  = "mommpSqlSessionFactory")
-public class MommpDataSourceConfig {
+@MapperScan(basePackages = "com.john.alltasks.datasource.mapper", sqlSessionFactoryRef  = "sqlSessionFactory")
+public class BizDataSourceConfig {
 
         private final String sqlmap = "classpath*:mapper/*.xml";
 
-        @Bean(name = "mommpDataSource")
-        @ConfigurationProperties(prefix = "spring.datasource.mommp")
+        @Bean(name = "dataSource")
+        @ConfigurationProperties(prefix = "spring.datasource.biz")
         @Primary
         public DataSource dataSource() {
                 return DataSourceBuilder.create().build();
         }
 
-        @Bean(name = "mommpSqlSessionFactory")
+        @Bean(name = "sqlSessionFactory")
         @Primary
-        public SqlSessionFactory sqlSessionFactory(@Qualifier("mommpDataSource") DataSource dataSource) throws Exception {
+        public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
                 SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
                 bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(sqlmap));
                 bean.setTypeHandlersPackage("com.datayes.mdi.dao.rdb.handler");
@@ -48,9 +48,9 @@ public class MommpDataSourceConfig {
                 return bean.getObject();
         }
 
-        @Bean(name = "mommpTransactionManager")
+        @Bean(name = "transactionManager")
         @Primary
-        public DataSourceTransactionManager transactionManager(@Qualifier("mommpDataSource") DataSource dataSource) {
+        public DataSourceTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
                 return new DataSourceTransactionManager(dataSource);
         }
 }

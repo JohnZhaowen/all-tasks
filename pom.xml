@@ -13,7 +13,7 @@
         <module>common</module>
         <module>scheduling</module>
         <module>warning</module>
-        <module>persistence</module>
+        <module>datasource</module>
         <module>script</module>
         <module>task</module>
     </modules>
