@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/warning")
 @Slf4j
 @Api(tags = "健康检查")
-public class HealthyCheckController {
+public class IndexController {
 
-    @GetMapping(value = "/healthyCheck",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation("健康检查")
-    public String healthyCheck(){
-        return "告警系统健康检查成功!";
+    @GetMapping(value = {"/", "/index"},  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation("首页")
+    public String index(){
+        return "hello， this is warning system!";
     }
 
 }

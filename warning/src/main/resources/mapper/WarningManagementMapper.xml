@@ -32,7 +32,7 @@
     </update>
 
     <select id="queryWarningByTenant" resultType="com.john.alltasks.warning.models.WarningListVO">
-        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, default_flag defaultFlag, owner
+        SELECT id, `name`, `level`, warning_method warningMethod, warning_impact warningImpact, tenant, operator, default_flag defaultFlag, owner, create_time createTime, update_time updateTime
         FROM warning
         WHERE (tenant = #{tenant} OR tenant IS NULL) AND status = 1
         ORDER BY `level` desc

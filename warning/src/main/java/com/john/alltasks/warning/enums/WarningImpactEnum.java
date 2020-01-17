@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public enum WarningImpactEnum {
     /**
-     * 对作业无影响
+     * 作业不影响
      */
     NO_IMPACT,
     /**
