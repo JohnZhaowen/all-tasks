@@ -24,7 +24,7 @@ public class WarnTriggerServiceImpl implements WarnTriggerService {
     public void trigger(WarningTriggerBO warning) {
 
         //提醒方式
-        warning.getWarningMethods().parallelStream().forEach(w -> warnSelector.getProcessor(w.name()).process(warning));
+        warning.getWarningMethods().forEach(w -> warnSelector.getProcessor(w.name()).process(warning));
 
 
 
