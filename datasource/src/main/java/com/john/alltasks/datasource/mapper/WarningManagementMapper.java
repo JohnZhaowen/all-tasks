@@ -1,3 +1,4 @@
+/*
 package com.john.alltasks.datasource.mapper;
 
 import com.john.alltasks.warning.models.WarningListVO;
@@ -20,3 +21,4 @@ public interface WarningManagementMapper {
 
     WarningPO queryWarningByOwner(@Param("owner") String owner, @Param("name") String name);
 }
+*/

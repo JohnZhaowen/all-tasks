@@ -14,9 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableSwagger2
-public class PersistenceApp {
+public class DatasourceApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(PersistenceApp.class, args);
+        SpringApplication.run(DatasourceApp.class, args);
     }
 }
