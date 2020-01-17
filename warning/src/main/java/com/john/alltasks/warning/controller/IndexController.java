@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/warning")
 @Slf4j
-@Api(tags = "健康检查")
+@Api(tags = "首页")
 public class IndexController {
 
-    @GetMapping(value = {"/", "/index"},  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = {"", "/index"},  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("首页")
     public String index(){
         return "hello， this is warning system!";

@@ -3,6 +3,8 @@ package com.john.alltasks.warning.enums;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * author: zhaowen.he
@@ -31,5 +33,9 @@ public enum WarningMethodEnum {
     public static boolean isExist(String name){
         WarningMethodEnum targetWarningMethod = Arrays.stream(WarningMethodEnum.values()).filter(e -> StringUtils.equals(e.name(), name)).findFirst().orElse(null);
         return targetWarningMethod != null;
+    }
+
+    public static List<String> getNames(){
+        return Arrays.stream(WarningMethodEnum.values()).map(w -> w.name()).collect(Collectors.toList());
     }
 }

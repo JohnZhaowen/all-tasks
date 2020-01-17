@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * author: zhaowen.he
@@ -45,9 +45,9 @@ public class WarningListVO implements Serializable {
     private String owner;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDate createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "最后更新时间")
-    private LocalDate updateTime;
+    private LocalDateTime updateTime;
 
 }
