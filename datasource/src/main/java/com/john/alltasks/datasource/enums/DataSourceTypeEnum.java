@@ -1,13 +1,20 @@
 package com.john.alltasks.datasource.enums;
 
+import com.john.alltasks.datasource.models.DataSourceTypeSelectableVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * author: zhaowen.he
  * date: 2020/1/15
  * ticket:
- * description: 告警影响程度
+ * description: 数据源类型可选值
  * @author zhaowen.he
  */
 @Getter
@@ -26,5 +33,22 @@ public enum DataSourceTypeEnum {
     private String group;
 
     private String type;
+
+    public static List<DataSourceTypeSelectableVO> groupBy(){
+
+        DataSourceTypeEnum[] dataSourceTypeEnums = DataSourceTypeEnum.values();
+
+        List<String> groups = Arrays.stream(dataSourceTypeEnums).map(e -> e.getGroup()).distinct().collect(Collectors.toList());
+        List<DataSourceTypeSelectableVO> dataSourceTypeSelectableVOS = new ArrayList<>(groups.size());
+
+
+        groups.forEach(g -> {
+            List<String> types = Arrays.stream(dataSourceTypeEnums).filter(d -> StringUtils.equals(d.getGroup(), g)).map(e -> e.getType()).collect(Collectors.toList());
+            DataSourceTypeSelectableVO v = new DataSourceTypeSelectableVO(g, types);
+            dataSourceTypeSelectableVOS.add(v);
+        });
+
+       return dataSourceTypeSelectableVOS;
+    }
 
 }

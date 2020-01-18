@@ -1,5 +1,6 @@
 package com.john.alltasks.datasource.models;
 
+import com.john.alltasks.datasource.enums.DataSourceTypeEnum;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -20,21 +21,23 @@ public class DataSourcePO implements Serializable {
 
     private String name;
 
-    private String level;
+    private String typeGroup;
 
-    private String warningMethod;
+    private String typeName;
 
-    private String warningImpact;
+    private String url;
 
-    private String tenant;
+    private String username;
 
-    private String operator;
+    private String password;
 
     private int status;
 
-    private int defaultFlag;
+    private String tenant;
 
     private String owner;
+
+    private String operator;
 
     private LocalDateTime createTime;
 

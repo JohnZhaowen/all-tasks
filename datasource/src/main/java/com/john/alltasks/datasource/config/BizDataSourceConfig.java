@@ -1,4 +1,3 @@
-/*
 package com.john.alltasks.datasource.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,15 +16,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 
-*/
-/**
+/*
  * author: zhaowen.he
  * date: 2019/8/28
  * ticket:
  * description:
- *//*
-
-
+ */
 @Configuration
 @MapperScan(basePackages = "com.john.alltasks.datasource.mapper", sqlSessionFactoryRef  = "sqlSessionFactory")
 public class BizDataSourceConfig {
@@ -57,4 +53,3 @@ public class BizDataSourceConfig {
                 return new DataSourceTransactionManager(dataSource);
         }
 }
-*/

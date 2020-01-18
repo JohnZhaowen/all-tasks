@@ -90,7 +90,7 @@ public class WarningManagementController {
     @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningUpdateVO")
     public ResponseData<String> modifyWarning(@Valid @RequestBody WarningUpdateVO warning, BindingResult bindingResult){
 
-        if(!ValidationUtil.validParam(bindingResult) || warning.getId() == null){
+        if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");
         }
         if(!checkWarningMethod(warning.getWarningMethod())){

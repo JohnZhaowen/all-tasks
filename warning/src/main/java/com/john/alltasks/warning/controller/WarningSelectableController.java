@@ -30,21 +30,18 @@ public class WarningSelectableController {
 
     @GetMapping(value = "/warningMethod", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("可选告警方式查询")
-    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningInsertVO")
     public ResponseData<WarningSelectableVO> warningMethod(){
         return ResponseData.success("可选告警方式查询成功", warningSelectableService.getWarningMethodSelectables());
     }
 
     @GetMapping(value = "/warningImpact", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("可选告警影响查询")
-    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningInsertVO")
     public ResponseData<WarningSelectableVO> warningImpact(){
         return ResponseData.success("可选告警影响查询成功", warningSelectableService.getWarningImpactSelectables());
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("可选告警方式/影响查询")
-    @ApiImplicitParam(paramType = "body", name = "warning", value = "告警配置", required = true, dataType = "WarningInsertVO")
     public ResponseData<WarningSelectableVO> warning(){
         return ResponseData.success("可选告警方式及影响查询成功", warningSelectableService.getSelectables());
     }

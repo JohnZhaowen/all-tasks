@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.john.alltasks.datasource.mapper.DataSourceManagementMapper">
+
+    <insert id="saveDataSource" parameterType="com.john.alltasks.datasource.models.DataSourcePO">
+        REPLACE INTO data_source
+        (`name`, `type`, username, password, url, status, tenant, owner, operator, create_time)
+        VALUES
+        (#{dataSource.name}, #{dataSource.type}, #{dataSource.username}, #{dataSource.password}, #{dataSource.url}, #{dataSource.status}, #{dataSource.tenant}, #{dataSource.owner}, #{dataSource.operator}, current_timestamp)
+    </insert>
+
+
+    <update id="removeDataSource">
+        UPDATE data_source
+        SET status = 0, update_time = current_timestamp
+        WHERE id = #{id} AND status = 1
+    </update>
+
+    <update id="updateDataSource" parameterType="com.john.alltasks.datasource.models.DataSourcePO">
+        UPDATE data_source
+        SET
+            `name` = #{dataSource.name},
+            username = #{dataSource.username},
+            password = #{dataSource.password},
+            url = #{dataSource.url},
+            operator = #{dataSource.operator},
+            update_time = current_timestamp
+        WHERE id = #{dataSource.id} AND status = 1
+    </update>
+
+
+    <select id="queryDataSourceByTenant" resultType="com.john.alltasks.datasource.models.DataSourceListVO">
+        SELECT id, `name`, `type`, url, username, password, tenant, operator, owner, create_time createTime, update_time updateTime
+        FROM data_source
+        WHERE tenant = #{tenant} AND status = 1
+        ORDER BY create_time desc, update_time desc
+    </select>
+
+
+    <select id="queryDataSourceByOwner" resultType="com.john.alltasks.datasource.models.DataSourcePO">
+        SELECT id, `name`, `type`, url, username, password, tenant, operator, owner, create_time createTime, update_time updateTime
+        FROM data_source
+        WHERE owner = #{owner} AND status = 1
+        LIMIT 1
+    </select>
+
+
+</mapper>
