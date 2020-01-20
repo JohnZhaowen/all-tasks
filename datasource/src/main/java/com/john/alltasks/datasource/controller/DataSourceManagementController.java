@@ -40,33 +40,22 @@ public class DataSourceManagementController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("数据源配置新增")
     @ApiImplicitParam(paramType = "body", name = "dataSource", value = "数据源配置", required = true, dataType = "DataSourceInsertVO")
-    public ResponseData<String> addWarning(@Valid @RequestBody DataSourceInsertVO dataSource, BindingResult bindingResult){
+    public ResponseData<String> addWarning(@Valid @RequestBody DataSourceInsertVO d, BindingResult bindingResult){
 
         if(!ValidationUtil.validParam(bindingResult)) {
             return ResponseData.error(400, "入参错误");
         }
-        if(!checkTypeGroupAndName(dataSource.getTypeGroup(), dataSource.getTypeName())){
+        if(!DataSourceTypeEnum.existed(d.getTypeGroup(), d.getTypeName())){
             log.error("数据源类型分组与数据源类型名称不匹配");
             return ResponseData.error(400, "数据源类型分组与数据源类型名称不匹配");
         }
-        if(!checkRdbConfig(dataSource.getTypeGroup(), dataSource.getUsername(), dataSource.getPassword())){
+        if(!DataSourceTypeGroupEnum.RDB.name().equals(d.getTypeGroup()) && (StringUtils.isBlank(d.getUsername()) || StringUtils.isBlank(d.getPassword()))){
             log.error("数据库配置中用户名或密码为空");
             return ResponseData.error(400, "数据库配置中用户名或密码为空");
         }
 
-        dataSourceManagementService.addDataSource(dataSource);
+        dataSourceManagementService.addDataSource(d);
         return ResponseData.success("数据源配置新增成功");
-    }
-
-    private boolean checkTypeGroupAndName(String group, String name){
-        return DataSourceTypeEnum.existed(group, name);
-    }
-
-    private boolean checkRdbConfig(String typeGroup, String username, String password){
-        if(DataSourceTypeGroupEnum.RDB.name().equals(typeGroup) && (StringUtils.isBlank(username) || StringUtils.isBlank(password))){
-            return false;
-        }
-        return true;
     }
 
     @DeleteMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -80,21 +69,21 @@ public class DataSourceManagementController {
     @PutMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("数据源配置修改")
     @ApiImplicitParam(paramType = "body", name = "dataSource", value = "数据源配置", required = true, dataType = "DataSourceUpdateVO")
-    public ResponseData<String> modifyWarning(@Valid @RequestBody DataSourceUpdateVO dataSource, BindingResult bindingResult){
+    public ResponseData<String> modifyWarning(@Valid @RequestBody DataSourceUpdateVO d, BindingResult bindingResult){
 
         if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");
         }
-        if(!checkTypeGroupAndName(dataSource.getTypeGroup(), dataSource.getTypeName())){
+        if(!DataSourceTypeEnum.existed(d.getTypeGroup(), d.getTypeName())){
             log.error("数据源类型分组与数据源类型名称不匹配");
             return ResponseData.error(400, "数据源类型分组与数据源类型名称不匹配");
         }
-        if(!checkRdbConfig(dataSource.getTypeGroup(), dataSource.getUsername(), dataSource.getPassword())){
+        if(!DataSourceTypeGroupEnum.RDB.name().equals(d.getTypeGroup()) && (StringUtils.isBlank(d.getUsername()) || StringUtils.isBlank(d.getPassword()))){
             log.error("数据库配置中用户名或密码为空");
             return ResponseData.error(400, "数据库配置中用户名或密码为空");
         }
 
-        dataSourceManagementService.modify(dataSource);
+        dataSourceManagementService.modify(d);
         return ResponseData.success("数据源配置修改成功");
     }
 
