@@ -26,12 +26,12 @@ import java.util.List;
  * author: zhaowen.he
  * date: 2020/1/16
  * ticket:
- * description: 告警配置的增删改查 + 试跑
+ * description: 数据源配置的增删改查 + 试跑
  */
 @RestController
 @RequestMapping("/datasource/management")
 @Slf4j
-@Api(tags = "告警配置管理")
+@Api(tags = "数据源配置管理")
 public class DataSourceManagementController {
 
     @Autowired
@@ -77,7 +77,6 @@ public class DataSourceManagementController {
         return ResponseData.success("数据源配置删除成功");
     }
 
-
     @PutMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("数据源配置修改")
     @ApiImplicitParam(paramType = "body", name = "dataSource", value = "数据源配置", required = true, dataType = "DataSourceUpdateVO")
@@ -98,7 +97,6 @@ public class DataSourceManagementController {
         dataSourceManagementService.modify(dataSource);
         return ResponseData.success("数据源配置修改成功");
     }
-
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation("数据源配置查询")
