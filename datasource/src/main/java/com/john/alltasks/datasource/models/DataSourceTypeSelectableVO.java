@@ -25,6 +25,6 @@ public class DataSourceTypeSelectableVO implements Serializable {
     private String typeGroup;
 
     @ApiModelProperty("可选值列表")
-    private List<String> type;
+    private List<String> typeName;
 
 }
