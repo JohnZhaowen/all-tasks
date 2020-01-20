@@ -41,7 +41,6 @@ public class BizDataSourceConfig {
         public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
                 SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
                 bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(sqlmap));
-                bean.setTypeHandlersPackage("com.datayes.mdi.dao.rdb.handler");
                 bean.setDataSource(dataSource);
                 //保证jar模式运行
                 bean.setVfs(SpringBootVFS.class);

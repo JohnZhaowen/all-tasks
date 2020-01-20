@@ -40,10 +40,13 @@ public class BizDataSourceConfig {
         public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
                 SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
                 bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(sqlmap));
-                bean.setTypeHandlersPackage("com.datayes.mdi.dao.rdb.handler");
                 bean.setDataSource(dataSource);
                 //保证jar模式运行
                 bean.setVfs(SpringBootVFS.class);
+/*                SqlSession sqlSession = bean.getObject().openSession();
+                ResultSet resultSet = sqlSession.getConnection().prepareStatement("select account_id as s from account order by account_id desc limit 1").executeQuery();
+                resultSet.next();
+                String  accoundId = resultSet.getString(1);*/
                 return bean.getObject();
         }
 
