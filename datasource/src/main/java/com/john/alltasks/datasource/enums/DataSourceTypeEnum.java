@@ -32,7 +32,7 @@ public enum DataSourceTypeEnum {
 
     private String group;
 
-    private String type;
+    private String name;
 
     public static List<DataSourceTypeSelectableVO> groupBy(){
 
@@ -43,12 +43,17 @@ public enum DataSourceTypeEnum {
 
 
         groups.forEach(g -> {
-            List<String> types = Arrays.stream(dataSourceTypeEnums).filter(d -> StringUtils.equals(d.getGroup(), g)).map(e -> e.getType()).collect(Collectors.toList());
+            List<String> types = Arrays.stream(dataSourceTypeEnums).filter(d -> StringUtils.equals(d.getGroup(), g)).map(e -> e.getName()).collect(Collectors.toList());
             DataSourceTypeSelectableVO v = new DataSourceTypeSelectableVO(g, types);
             dataSourceTypeSelectableVOS.add(v);
         });
 
        return dataSourceTypeSelectableVOS;
+    }
+
+    public static boolean existed(String group, String name){
+        DataSourceTypeEnum target = Arrays.stream(DataSourceTypeEnum.values()).filter(e -> StringUtils.equals(group, e.group) && StringUtils.equals(name, e.name)).findFirst().orElse(null);
+        return target != null;
     }
 
 }

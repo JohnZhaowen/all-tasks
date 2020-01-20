@@ -12,7 +12,7 @@ public interface DataSourceManagementMapper {
 
     void saveDataSource(@Param("dataSource") DataSourcePO dataSource);
 
-    void removeDataSource(@Param("id") Long id);
+    void removeDataSource(@Param("id") Long id, @Param("operator") String operator);
 
     void updateDataSource(@Param("dataSource") DataSourcePO dataSource);
 

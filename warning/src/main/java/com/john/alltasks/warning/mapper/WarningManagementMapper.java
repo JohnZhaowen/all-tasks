@@ -12,7 +12,7 @@ public interface WarningManagementMapper {
 
     void saveWarning(@Param("warning") WarningPO warning);
 
-    void removeWarning(@Param("id") Long id);
+    void removeWarning(@Param("id") Long id, @Param("operator") String operator);
 
     void updateWarning(@Param("warning") WarningPO warning);
 

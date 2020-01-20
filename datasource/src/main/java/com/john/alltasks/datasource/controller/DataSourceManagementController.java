@@ -3,6 +3,8 @@ package com.john.alltasks.datasource.controller;
 import com.john.alltasks.common.models.ResponseData;
 import com.john.alltasks.common.security.AuthUtil;
 import com.john.alltasks.common.utils.ValidationUtil;
+import com.john.alltasks.datasource.enums.DataSourceTypeEnum;
+import com.john.alltasks.datasource.enums.DataSourceTypeGroupEnum;
 import com.john.alltasks.datasource.models.DataSourceInsertVO;
 import com.john.alltasks.datasource.models.DataSourceListVO;
 import com.john.alltasks.datasource.models.DataSourceUpdateVO;
@@ -11,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -26,7 +29,7 @@ import java.util.List;
  * description: 告警配置的增删改查 + 试跑
  */
 @RestController
-@RequestMapping("/warning/management")
+@RequestMapping("/datasource/management")
 @Slf4j
 @Api(tags = "告警配置管理")
 public class DataSourceManagementController {
@@ -39,12 +42,31 @@ public class DataSourceManagementController {
     @ApiImplicitParam(paramType = "body", name = "dataSource", value = "数据源配置", required = true, dataType = "DataSourceInsertVO")
     public ResponseData<String> addWarning(@Valid @RequestBody DataSourceInsertVO dataSource, BindingResult bindingResult){
 
-        if(!ValidationUtil.validParam(bindingResult)){
+        if(!ValidationUtil.validParam(bindingResult)) {
             return ResponseData.error(400, "入参错误");
+        }
+        if(!checkTypeGroupAndName(dataSource.getTypeGroup(), dataSource.getTypeName())){
+            log.error("数据源类型分组与数据源类型名称不匹配");
+            return ResponseData.error(400, "数据源类型分组与数据源类型名称不匹配");
+        }
+        if(!checkRdbConfig(dataSource.getTypeGroup(), dataSource.getUsername(), dataSource.getPassword())){
+            log.error("数据库配置中用户名或密码为空");
+            return ResponseData.error(400, "数据库配置中用户名或密码为空");
         }
 
         dataSourceManagementService.addDataSource(dataSource);
         return ResponseData.success("数据源配置新增成功");
+    }
+
+    private boolean checkTypeGroupAndName(String group, String name){
+        return DataSourceTypeEnum.existed(group, name);
+    }
+
+    private boolean checkRdbConfig(String typeGroup, String username, String password){
+        if(DataSourceTypeGroupEnum.RDB.name().equals(typeGroup) && (StringUtils.isBlank(username) || StringUtils.isBlank(password))){
+            return false;
+        }
+        return true;
     }
 
     @DeleteMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -63,6 +85,14 @@ public class DataSourceManagementController {
 
         if(!ValidationUtil.validParam(bindingResult)){
             return ResponseData.error(400, "入参错误");
+        }
+        if(!checkTypeGroupAndName(dataSource.getTypeGroup(), dataSource.getTypeName())){
+            log.error("数据源类型分组与数据源类型名称不匹配");
+            return ResponseData.error(400, "数据源类型分组与数据源类型名称不匹配");
+        }
+        if(!checkRdbConfig(dataSource.getTypeGroup(), dataSource.getUsername(), dataSource.getPassword())){
+            log.error("数据库配置中用户名或密码为空");
+            return ResponseData.error(400, "数据库配置中用户名或密码为空");
         }
 
         dataSourceManagementService.modify(dataSource);

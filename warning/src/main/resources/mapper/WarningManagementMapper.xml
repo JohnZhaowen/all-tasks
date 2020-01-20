@@ -15,7 +15,7 @@
 
     <update id="removeWarning">
         UPDATE warning
-        SET status = 0, update_time = current_timestamp
+        SET status = 0, operator = #{operator}, update_time = current_timestamp
         WHERE id = #{id} AND status = 1
     </update>
 

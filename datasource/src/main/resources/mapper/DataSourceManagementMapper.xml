@@ -4,15 +4,15 @@
 
     <insert id="saveDataSource" parameterType="com.john.alltasks.datasource.models.DataSourcePO">
         REPLACE INTO data_source
-        (`name`, `type`, username, password, url, status, tenant, owner, operator, create_time)
+        (`name`, type_group, type_name, username, password, url, status, tenant, owner, operator, create_time)
         VALUES
-        (#{dataSource.name}, #{dataSource.type}, #{dataSource.username}, #{dataSource.password}, #{dataSource.url}, #{dataSource.status}, #{dataSource.tenant}, #{dataSource.owner}, #{dataSource.operator}, current_timestamp)
+        (#{dataSource.name}, #{dataSource.typeGroup}, #{dataSource.typeName}, #{dataSource.username}, #{dataSource.password}, #{dataSource.url}, #{dataSource.status}, #{dataSource.tenant}, #{dataSource.owner}, #{dataSource.operator}, current_timestamp)
     </insert>
 
 
     <update id="removeDataSource">
         UPDATE data_source
-        SET status = 0, update_time = current_timestamp
+        SET status = 0, operator = #{operator}, update_time = current_timestamp
         WHERE id = #{id} AND status = 1
     </update>
 
@@ -20,6 +20,8 @@
         UPDATE data_source
         SET
             `name` = #{dataSource.name},
+            type_group = #{dataSource.typeGroup},
+            type_name = #{dataSource.typeName},
             username = #{dataSource.username},
             password = #{dataSource.password},
             url = #{dataSource.url},
@@ -30,7 +32,7 @@
 
 
     <select id="queryDataSourceByTenant" resultType="com.john.alltasks.datasource.models.DataSourceListVO">
-        SELECT id, `name`, `type`, url, username, password, tenant, operator, owner, create_time createTime, update_time updateTime
+        SELECT id, `name`, type_group typeGroup, type_name typeName, url, username, password, tenant, operator, owner, create_time createTime, update_time updateTime
         FROM data_source
         WHERE tenant = #{tenant} AND status = 1
         ORDER BY create_time desc, update_time desc
@@ -38,9 +40,9 @@
 
 
     <select id="queryDataSourceByOwner" resultType="com.john.alltasks.datasource.models.DataSourcePO">
-        SELECT id, `name`, `type`, url, username, password, tenant, operator, owner, create_time createTime, update_time updateTime
+        SELECT id, `name`, type_group typeGroup, type_name typeName, url, username, password, status, tenant, operator, owner, create_time createTime, update_time updateTime
         FROM data_source
-        WHERE owner = #{owner} AND status = 1
+        WHERE owner = #{owner} AND  `name` = #{name}
         LIMIT 1
     </select>
 

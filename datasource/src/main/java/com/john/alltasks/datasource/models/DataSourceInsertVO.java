@@ -31,9 +31,8 @@ public class DataSourceInsertVO implements Serializable {
     @NotBlank(message = "数据源类型名称不可为空")
     private String typeName;
 
-
     @ApiModelProperty(value = "数据源URL")
-    @NotNull(message = "数据源URL")
+    @NotNull(message = "数据源URL不可为空")
     private String url;
 
     @ApiModelProperty(value = "数据源用户名")

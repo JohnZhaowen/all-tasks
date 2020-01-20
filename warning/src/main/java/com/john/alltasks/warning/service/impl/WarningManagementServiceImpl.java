@@ -7,6 +7,7 @@ import com.john.alltasks.warning.models.*;
 import com.john.alltasks.warning.service.WarningManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,13 +56,19 @@ public class WarningManagementServiceImpl implements WarningManagementService {
 
     @Override
     public void delWarning(Long id) {
-        warningManagementMapper.removeWarning(id);
+        warningManagementMapper.removeWarning(id, AuthUtil.getUserId());
     }
 
     @Override
     public void modify(WarningUpdateVO warningUpdateVO) {
         WarningPO warning = of(warningUpdateVO);
-        warningManagementMapper.updateWarning(warning);
+        String content = String.format("存在名称为[%s]的告警配置，更新失败", warning.getName());
+        try {
+            warningManagementMapper.updateWarning(warning);
+        } catch (DuplicateKeyException e) {
+            log.error(content + " [{}]", e);
+            throw new BizException(400, content);
+        }
     }
 
     private WarningPO of(WarningUpdateVO warningUpdateVO) {

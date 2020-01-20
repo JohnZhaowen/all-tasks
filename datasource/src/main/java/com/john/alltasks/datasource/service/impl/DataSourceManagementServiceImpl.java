@@ -10,6 +10,7 @@ import com.john.alltasks.datasource.models.DataSourceUpdateVO;
 import com.john.alltasks.datasource.service.DataSourceManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,19 +60,27 @@ public class DataSourceManagementServiceImpl implements DataSourceManagementServ
 
     @Override
     public void delDataSource(Long id) {
-        dataSourceManagementMapper.removeDataSource(id);
+        dataSourceManagementMapper.removeDataSource(id, AuthUtil.getUserId());
     }
 
     @Override
     public void modify(DataSourceUpdateVO dataSourceUpdateVO) {
         DataSourcePO dataSource = of(dataSourceUpdateVO);
-        dataSourceManagementMapper.updateDataSource(dataSource);
+        String content = String.format("存在名称为[%s]的数据源配置，更新失败", dataSource.getName());
+        try {
+            dataSourceManagementMapper.updateDataSource(dataSource);
+        } catch (DuplicateKeyException e) {
+            log.error(content + " [{}]", e);
+            throw new BizException(400, content);
+        }
     }
 
     private DataSourcePO of(DataSourceUpdateVO dataSourceUpdateVO) {
         DataSourcePO dataSourcePO = new DataSourcePO();
         dataSourcePO.setId(dataSourceUpdateVO.getId());
         dataSourcePO.setName(dataSourceUpdateVO.getName());
+        dataSourcePO.setTypeGroup(dataSourceUpdateVO.getTypeGroup());
+        dataSourcePO.setTypeName(dataSourceUpdateVO.getTypeName());
         dataSourcePO.setUrl(dataSourceUpdateVO.getUrl());
         dataSourcePO.setUsername(dataSourceUpdateVO.getUsername());
         dataSourcePO.setPassword(dataSourceUpdateVO.getPassword());
