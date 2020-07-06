@@ -16,6 +16,8 @@
         <module>datasource</module>
         <module>script</module>
         <module>task</module>
+        <module>user-center</module>
+        <module>authority</module>
     </modules>
 
     <parent>

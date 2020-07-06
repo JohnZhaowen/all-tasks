@@ -18,7 +18,11 @@ public class ResponseData<T> {
 
     private boolean success;
 
+    private String currentAuthority;
+
     private String message;
+
+    private String status;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private int code;
